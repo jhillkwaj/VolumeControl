@@ -1,4 +1,4 @@
-package com.example.wavej.hacktx;
+package com.example.tx.hacktx;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

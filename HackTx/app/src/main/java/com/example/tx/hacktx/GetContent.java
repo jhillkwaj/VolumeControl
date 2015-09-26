@@ -1,4 +1,4 @@
-package com.example.wavej.hacktx;
+package com.example.tx.hacktx;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,12 @@ public class GetContent {
 
     public GetContent()
     {
+        names.add("Turn on Airplane mode between 9 and 9 on weekends");
+        names.add("Mute my phone when I am out");
+        names.add("Turn on Airplane mode between 9 and 9 on weekends");
+        names.add("Mute my phone when I am out");
+        names.add("Turn on Airplane mode between 9 and 9 on weekends");
+        names.add("Mute my phone when I am out");
         names.add("Turn on Airplane mode between 9 and 9 on weekends");
         names.add("Mute my phone when I am out");
     }

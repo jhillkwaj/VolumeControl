@@ -1,8 +1,6 @@
-package com.example.wavej.hacktx;
+package com.example.tx.hacktx;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
