@@ -20,4 +20,10 @@
         android:onClick="showDatePickerDialog"
         android:layout_below="@id/pick_time"/>
 
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/event_list"
+        ></ListView>
+
 </RelativeLayout>

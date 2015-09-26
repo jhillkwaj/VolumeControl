@@ -13,19 +13,32 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import java.util.Calendar;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ListView contentListView;
+    private EventAdapter eventAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GetContent g = new GetContent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        contentListView = (ListView) findViewById(R.id.event_list);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        eventAdapter = new EventAdapter(this, getLayoutInflater());
+        contentListView.setAdapter(eventAdapter);
+
         return true;
     }
 
