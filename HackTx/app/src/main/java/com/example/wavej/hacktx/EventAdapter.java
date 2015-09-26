@@ -10,9 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by justi on 9/26/2015.
- */
 public class EventAdapter extends BaseAdapter {
 
     private Context context;
@@ -97,8 +94,6 @@ public class EventAdapter extends BaseAdapter {
     }
 
     /**
-     * Created by Justin Hill on 12/24/2014.
-     *
      * This class holds the elements of a post in the ContentAdapter
      */
     private static class ViewHolder {

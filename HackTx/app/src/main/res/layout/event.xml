@@ -22,7 +22,4 @@
         android:src="@mipmap/ic_launcher"
         android:id = "@+id/image_icon"/>
 
-
-
-
 </RelativeLayout>
