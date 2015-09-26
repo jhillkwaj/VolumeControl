@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="pick_time">Choose a time!</string>
+    <string name="pick_date">Choose a date!</string>
 </resources>
