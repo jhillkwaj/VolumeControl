@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PendingIntent pendingIntent;
     
-    Alarm alarm = null;
+    static Alarm alarm = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void start() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        Intent myIntent = new Intent(this, Alarm.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent,0);
-
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10000,
-                10000, pendingIntent);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,6 +92,28 @@ public class MainActivity extends AppCompatActivity {
         profileList.add(profile);
     }
 
+    //Sets the ringer to silent
+    public void silenceRinger(View v){
+        int state = AudioManager.RINGER_MODE_SILENT;
+        am.setRingerMode(state);
+    }
+
+    //Sets the ringer to vibrate
+    public void vibrateRinger(View v){
+        int state = AudioManager.RINGER_MODE_VIBRATE;
+        am.setRingerMode(state);
+    }
+
+    //Sets the ringer to normal
+    public void normalRinger(View v) {
+        int state = AudioManager.RINGER_MODE_NORMAL;
+        am.setRingerMode(state);
+    }
+
+    public void changeState(int newState) {
+        am.setRingerMode(newState);
+    }
+
     class Alarm {
         ScheduledExecutorService scheduler =
                 Executors.newSingleThreadScheduledExecutor();
@@ -109,7 +122,21 @@ public class MainActivity extends AppCompatActivity {
             scheduler.scheduleAtFixedRate
                     (new Runnable() {
                         public void run() {
-                            Log.d("test", "test");
+                            Log.d("test","test");
+                            for(int i = 0; i < profileList.size(); i++)
+                            {
+                                Profile p = profileList.get(i);
+                                Calendar c = Calendar.getInstance();
+                                c.set( p.getYear(), p.getMonth(), p.getDay(), p.getStartHour(), p.getStartMinute());
+                                long mils = c.getTimeInMillis();
+                                if(System.currentTimeMillis() + 1000 > mils)
+                                {
+                                    changeState(p.getRingerState());
+                                    profileList.remove(i);
+                                    i--;
+                                    eventAdapter.update();
+                                }
+                            }
                         }
                     }, 0, 10, TimeUnit.SECONDS);
         }
