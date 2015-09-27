@@ -85,6 +85,10 @@ public class EventAdapter extends BaseAdapter {
 
         // Put each of the parts of the post into the correct textviews
         holder.titleTextView.setText(data[0]);
+        if(data[1].equals("0"))
+            holder.imageImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_alarm_black));
+        if(data[1].equals("1"))
+            holder.imageImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_alarm_fade));
 
 
         //return the new view

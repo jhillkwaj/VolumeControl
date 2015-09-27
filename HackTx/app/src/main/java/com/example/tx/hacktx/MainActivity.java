@@ -24,8 +24,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView contentListView;
-    private EventAdapter eventAdapter;
+    private static ListView contentListView;
+    private static EventAdapter eventAdapter;
     private AudioManager am;
 
     public static ArrayList<Profile> profileList = new ArrayList<>();
@@ -34,19 +34,40 @@ public class MainActivity extends AppCompatActivity {
     
     static Alarm alarm = null;
 
+    public static GetContent g;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        GetContent g = new GetContent();
+        g = new GetContent();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         contentListView = (ListView) findViewById(R.id.event_list);
         contentListView.setClickable(true);
+
+        eventAdapter = new EventAdapter(this, getLayoutInflater());
+        contentListView.setAdapter(eventAdapter);
+
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Log.d("click", "click on " + position);
+                profileList.get(position).changeActive();
+                g.update();
+                eventAdapter.notifyDataSetChanged();
+            }
+        });
+
+        contentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long arg3) {
+                profileList.remove(pos);
+                g.update();
+                eventAdapter.notifyDataSetChanged();
+                return false;
             }
         });
 
@@ -63,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        eventAdapter = new EventAdapter(this, getLayoutInflater());
-        contentListView.setAdapter(eventAdapter);
 
         return true;
     }
@@ -125,24 +144,47 @@ public class MainActivity extends AppCompatActivity {
             scheduler.scheduleAtFixedRate
                     (new Runnable() {
                         public void run() {
-                            Log.d("test","test");
-                            for(int i = 0; i < profileList.size(); i++)
-                            {
+                            for (int i = 0; i < profileList.size(); i++) {
                                 Profile p = profileList.get(i);
                                 Calendar c = Calendar.getInstance();
-                                c.set( p.getYear(), p.getMonth(), p.getDay(), p.getStartHour(), p.getStartMinute());
+                                c.set(p.getYear(), p.getMonth(), p.getDay(), p.getStartHour(), p.getStartMinute());
                                 long mils = c.getTimeInMillis();
-                                if(System.currentTimeMillis() + 1000 > mils)
-                                {
-                                    changeState(p.getRingerState());
-                                    profileList.remove(i);
-                                    i--;
-                                    eventAdapter.update();
-                                    eventAdapter.notifyDataSetChanged();
+                                if (System.currentTimeMillis() + 1000 > mils) {
+                                    if(p.getActive())
+                                        changeState(p.getRingerState());
+
+                                    int day = c.get(Calendar.DAY_OF_WEEK) - 2;
+
+                                    if (day <= -1)
+                                        day = day + 7;
+
+
+                                    int newDay = day + 1;
+                                    boolean exit = false;
+                                    int addDays = 1;
+                                    while (addDays <= 7 && !exit) {
+                                        if (newDay >= 7)
+                                            newDay -= 7;
+                                        if (p.getRepeatDays()[newDay]) {
+                                            exit = true;
+                                            p.addDay(addDays);
+                                        }
+                                        newDay++;
+                                        addDays++;
+                                    }
+                                    if (!exit) {
+                                        //if it is not a repeating event
+                                        profileList.remove(i);
+                                        g.update();
+                                        eventAdapter.notifyDataSetChanged();
+                                        i--;
+                                    }
+
                                     triggerNotification("Volume profile changed");
 
                                 }
                             }
+
                         }
                     }, 0, 10, TimeUnit.SECONDS);
         }
@@ -169,4 +211,6 @@ public class MainActivity extends AppCompatActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
     }
+
+
 }
