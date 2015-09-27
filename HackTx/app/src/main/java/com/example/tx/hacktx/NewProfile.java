@@ -26,7 +26,7 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
 
     private AudioManager am;
 
-    //TODO set name, end date?, repeating on days of week, check for valid profile entry
+    //TODO end date?, repeating on days of week, check for valid profile entry
 
     //Profile data
     private static String name;
@@ -34,8 +34,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
     private static int state;
     private static int startHour;
     private static int startMinute;
-    private static int endHour;
-    private static int endMinute;
     private static int year;
     private static int month;
     private static int day;
@@ -94,28 +92,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         }
     }
 
-    //Manages the end TimePicker dialog
-    public static class EndTimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
-            setProfileEndTime(hourOfDay, minute);
-        }
-    }
-
     //Manages the DatePicker dialog
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -144,11 +120,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         newFragment.show(getFragmentManager(), "startTimePicker");
     }
 
-    public void showEndTimePickerDialog(View v) {
-        DialogFragment newFragment = new EndTimePickerFragment();
-        newFragment.show(getFragmentManager(), "endTimePicker");
-    }
-
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
@@ -157,11 +128,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
     private static void setProfileStartTime(int h, int m){
         startHour = h;
         startMinute = m;
-    }
-
-    private static void setProfileEndTime(int h, int m){
-        endHour = h;
-        endMinute = m;
     }
 
     private static void setProfileDate(int y, int m, int d){
@@ -220,7 +186,7 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         EditText mEdit   = (EditText)findViewById(R.id.title_text_box);
         setName(mEdit.getText().toString());
 
-        Profile profile = new Profile(name, description, state, startHour, startMinute, endHour, endMinute, year, month, day);
+        Profile profile = new Profile(name, description, state, startHour, startMinute, year, month, day);
         MainActivity.addProfileToList(profile);
 
         Intent profileSet = new Intent(this, MainActivity.class);
@@ -230,12 +196,9 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
 
     private void createDescription(){
         switch(state){
-            case AudioManager.RINGER_MODE_SILENT: description = "Silence set from " + startHour + ":" + startMinute + " to " + endHour + ":" + endMinute +
-                                                                    " on " + month + "/" + day + "/" + year + "."; break;
-            case AudioManager.RINGER_MODE_VIBRATE: description = "Vibrate set from " + startHour + ":" + startMinute + " to " + endHour + ":" + endMinute +
-                                                                    " on " + month + "/" + day + "/" + year + "."; break;
-            case AudioManager.RINGER_MODE_NORMAL: description = "Ringer set from " + startHour + ":" + startMinute + " to " + endHour + ":" + endMinute +
-                                                                    " on " + month + "/" + day + "/" + year + "."; break;
+            case AudioManager.RINGER_MODE_SILENT: description = "Silence set at" + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
+            case AudioManager.RINGER_MODE_VIBRATE: description = "Vibrate set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
+            case AudioManager.RINGER_MODE_NORMAL: description = "Ringer set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
         }
     }
 
