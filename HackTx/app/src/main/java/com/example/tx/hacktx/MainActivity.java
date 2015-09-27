@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView contentListView;
     private EventAdapter eventAdapter;
+    private AudioManager am;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +32,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         contentListView = (ListView) findViewById(R.id.event_list);
-       contentListView.setClickable(true);
+        contentListView.setClickable(true);
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Log.d("click","click on " + position);
-
-
+                Log.d("click", "click on " + position);
             }
         });
+
+        am = (AudioManager) this.getApplicationContext().getSystemService(this.getApplicationContext().AUDIO_SERVICE);
     }
 
     @Override
@@ -130,5 +133,20 @@ public class MainActivity extends AppCompatActivity {
     //Sets a profile at the given date
     private static void setProfileDate(int year, int month, int day){
         //TODO
+    }
+
+    //Sets the ringer to silent
+    public void silenceRinger(View v){
+        am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+    }
+
+    //Sets the ringer to vibrate
+    public void vibrateRinger(View v){
+        am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+    }
+
+    //Sets the ringer to normal
+    public void normalRinger(View v){
+        am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
     }
 }
