@@ -3,46 +3,8 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/pick_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pick_time"
-        android:onClick="showTimePickerDialog"/>
-
-    <Button
-        android:id="@+id/pick_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pick_date"
-        android:onClick="showDatePickerDialog"
-        android:layout_below="@id/pick_time"/>
-
-    <Button
-        android:id="@+id/set_ringer_silent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_ringer_silent"
-        android:onClick="silenceRinger"
-        android:layout_below="@id/pick_date"/>
-
-    <Button
-        android:id="@+id/set_ringer_vibrate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_ringer_vibrate"
-        android:onClick="vibrateRinger"
-        android:layout_below="@id/set_ringer_silent"/>
-
-    <Button
-        android:id="@+id/set_ringer_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_ringer_normal"
-        android:onClick="normalRinger"
-        android:layout_below="@id/set_ringer_vibrate"/>
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
 
     <ListView
         android:layout_width="fill_parent"

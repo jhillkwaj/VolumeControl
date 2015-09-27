@@ -10,4 +10,6 @@
     <string name="set_ringer_silent">Set your ringer to silent!</string>
     <string name="set_ringer_vibrate">Set your ringer to vibrate!</string>
     <string name="set_ringer_normal">Set your ringer to normal!</string>
+
+    <string name="title_activity_new_profile">Create a new profile</string>
 </resources>
