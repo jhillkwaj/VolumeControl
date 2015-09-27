@@ -22,20 +22,12 @@
         android:layout_below="@id/title_text_box"/>
 
     <Button
-        android:id="@+id/pick_end_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pick_end_time"
-        android:onClick="showEndTimePickerDialog"
-        android:layout_below="@id/pick_start_time"/>
-
-    <Button
         android:id="@+id/pick_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pick_date"
         android:onClick="showDatePickerDialog"
-        android:layout_below="@id/pick_end_time"/>
+        android:layout_below="@id/pick_start_time"/>
 
     <Spinner
         android:id="@+id/ringer_state_spinner"
@@ -43,11 +35,81 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/pick_date"/>
 
+    <TextView
+        android:id="@+id/repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat"
+        android:layout_below="@id/ringer_state_spinner"/>
+
+    <CheckBox
+        android:id="@+id/mondayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/repeat"/>
+
+    <CheckBox
+        android:id="@+id/tuesdayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tuesday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/mondayCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/wednesdayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wednesday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/tuesdayCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/thursdayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thursday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/wednesdayCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/fridayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/thursdayCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/saturdayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saturday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/fridayCheckBox"/>
+
+    <CheckBox
+        android:id="@+id/sundayCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunday"
+        android:clickable="true"
+        android:onClick="itemClicked"
+        android:layout_below="@id/saturdayCheckBox"/>
+
     <Button
         android:id="@+id/set_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_new_profile"
         android:onClick="setProfile"
-        android:layout_below="@id/ringer_state_spinner"/>
+        android:layout_below="@id/saturdayCheckBox"/>
 </RelativeLayout>

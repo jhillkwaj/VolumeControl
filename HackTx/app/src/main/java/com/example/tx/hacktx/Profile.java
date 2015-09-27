@@ -10,8 +10,9 @@ public class Profile {
     private int year;
     private int month;
     private int day;
+    private boolean[] repeatDays;
 
-    public Profile(String n, String desc, int state, int starth, int startmin, int y, int m, int d){
+    public Profile(String n, String desc, int state, int starth, int startmin, int y, int m, int d, boolean[] repeats){
         name = n;
         description = desc;
         ringerState = state;
@@ -20,6 +21,7 @@ public class Profile {
         year = y;
         month = m;
         day = d;
+        repeatDays = repeats;
     }
 
     public String getName(){
@@ -52,5 +54,9 @@ public class Profile {
 
     public int getDay(){
         return day;
+    }
+
+    public boolean[]  getRepeatDays(){
+        return repeatDays;
     }
 }

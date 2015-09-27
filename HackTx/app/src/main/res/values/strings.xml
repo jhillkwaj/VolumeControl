@@ -6,8 +6,9 @@
 
     <string name="title_text_box">Enter a title for this profile</string>
     <string name="pick_start_time">Choose a start time!</string>
-    <string name="pick_end_time">Choose an end time!</string>
     <string name="pick_date">Choose a date!</string>
+
+    <string name="repeat">Choose which days to on:</string>
 
     <string name="set_ringer_silent">Set your ringer to silent!</string>
     <string name="set_ringer_vibrate">Set your ringer to vibrate!</string>

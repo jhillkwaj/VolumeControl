@@ -9,24 +9,26 @@ import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
+
 import java.util.Calendar;
 
 public class NewProfile extends AppCompatActivity implements OnItemSelectedListener {
 
     private AudioManager am;
 
-    //TODO end date?, repeating on days of week, check for valid profile entry
+    //TODO end date?, check for valid profile entry
 
     //Profile data
     private static String name;
@@ -37,6 +39,9 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
     private static int year;
     private static int month;
     private static int day;
+
+    //Boolean values indicating which days to repeat the profile
+    private static boolean[] repeatDays = new boolean[9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,24 +141,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         day = d;
     }
 
-    //Sets the ringer to silent
-    public void silenceRinger(View v){
-        state = AudioManager.RINGER_MODE_SILENT;
-        am.setRingerMode(state);
-    }
-
-    //Sets the ringer to vibrate
-    public void vibrateRinger(View v){
-        state = AudioManager.RINGER_MODE_VIBRATE;
-        am.setRingerMode(state);
-    }
-
-    //Sets the ringer to normal
-    public void normalRinger(View v) {
-        state = AudioManager.RINGER_MODE_NORMAL;
-        am.setRingerMode(state);
-    }
-
     public void createStateSpinner(){
         Spinner spinner = (Spinner) findViewById(R.id.ringer_state_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -186,23 +173,81 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         EditText mEdit   = (EditText)findViewById(R.id.title_text_box);
         setName(mEdit.getText().toString());
 
-        Profile profile = new Profile(name, description, state, startHour, startMinute, year, month, day);
-        MainActivity.addProfileToList(profile);
+        if(name.equals("") || startHour == 0 || day == 0 || month == 0 || year == 0){
+            Toast.makeText(NewProfile.this, "You must enter a name, time, and date to create a profile.", Toast.LENGTH_LONG).show();
+        }
 
-        Intent profileSet = new Intent(this, MainActivity.class);
-        startActivity(profileSet);
-        this.finish();
+        else {
+            Profile profile = new Profile(name, description, state, startHour, startMinute, year, month, day, repeatDays);
+            MainActivity.addProfileToList(profile);
+
+            Intent profileSet = new Intent(this, MainActivity.class);
+            startActivity(profileSet);
+            this.finish();
+        }
     }
 
     private void createDescription(){
-        switch(state){
-            case AudioManager.RINGER_MODE_SILENT: description = "Silence set at" + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
-            case AudioManager.RINGER_MODE_VIBRATE: description = "Vibrate set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
-            case AudioManager.RINGER_MODE_NORMAL: description = "Ringer set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + "."; break;
+        if(startMinute == 0) {
+            switch (state) {
+                case AudioManager.RINGER_MODE_SILENT:
+                    description = "Silence set at " + startHour + ":00 on " + month + "/" + day + "/" + year + ".";
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    description = "Vibrate set at " + startHour + ":00 on " + month + "/" + day + "/" + year + ".";
+                    break;
+                case AudioManager.RINGER_MODE_NORMAL:
+                    description = "Ringer set at " + startHour + ":00 on " + month + "/" + day + "/" + year + ".";
+                    break;
+            }
+        }
+        else{
+            switch (state) {
+                case AudioManager.RINGER_MODE_SILENT:
+                    description = "Silence set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + ".";
+                    break;
+                case AudioManager.RINGER_MODE_VIBRATE:
+                    description = "Vibrate set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + ".";
+                    break;
+                case AudioManager.RINGER_MODE_NORMAL:
+                    description = "Ringer set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + ".";
+                    break;
+            }
         }
     }
 
     private void setName(String n){
         name = n;
+    }
+
+    //Called if one of the profile repeat check boxes is checked
+    public void itemClicked(View v) {
+        if(v instanceof CheckBox) {
+            //code to check if this checkbox is checked!
+            CheckBox checkBox = (CheckBox) v;
+            switch (checkBox.getId()) {
+                case (R.id.mondayCheckBox):
+                    repeatDays[0] = checkBox.isChecked();
+                    break;
+                case (R.id.tuesdayCheckBox):
+                    repeatDays[1] = checkBox.isChecked();
+                    break;
+                case (R.id.wednesdayCheckBox):
+                    repeatDays[2] = checkBox.isChecked();
+                    break;
+                case (R.id.thursdayCheckBox):
+                    repeatDays[3] = checkBox.isChecked();
+                    break;
+                case (R.id.fridayCheckBox):
+                    repeatDays[4] = checkBox.isChecked();
+                    break;
+                case (R.id.saturdayCheckBox):
+                    repeatDays[5] = checkBox.isChecked();
+                    break;
+                case (R.id.sundayCheckBox):
+                    repeatDays[6] = checkBox.isChecked();
+                    break;
+            }
+        }
     }
 }
