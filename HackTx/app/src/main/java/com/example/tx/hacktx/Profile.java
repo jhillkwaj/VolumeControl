@@ -94,8 +94,8 @@ public class Profile {
 
     }
 
-    private void createDescription(){
-        if(startMinute == 0) {
+    private void createDescription() {
+        if (startMinute == 0) {
             switch (ringerState) {
                 case AudioManager.RINGER_MODE_SILENT:
                     description = "Silence set at " + startHour + ":00 on " + month + "/" + day + "/" + year + ".";
@@ -107,8 +107,7 @@ public class Profile {
                     description = "Ringer set at " + startHour + ":00 on " + month + "/" + day + "/" + year + ".";
                     break;
             }
-        }
-        else{
+        } else {
             switch (ringerState) {
                 case AudioManager.RINGER_MODE_SILENT:
                     description = "Silence set at " + startHour + ":" + startMinute + " on " + month + "/" + day + "/" + year + ".";
@@ -121,5 +120,41 @@ public class Profile {
                     break;
             }
         }
+    }
+
+    public void setName(String n){
+        name = n;
+    }
+
+    public void setDescription(String desc){
+        description = desc;
+    }
+
+    public void setRingerState(int state){
+        ringerState = state;
+    }
+
+    public void setStartHour(int h){
+        startHour = h;
+    }
+
+    public void setStartMinute(int m){
+        startMinute = m;
+    }
+
+    public void setYear(int y){
+        year = y;
+    }
+
+    public void setMonth(int m){
+        month = m;
+    }
+
+    public void setDay(int d){
+        day = d;
+    }
+
+    public void setRepeatDays(boolean[] repeat){
+        repeatDays = repeat;
     }
 }
