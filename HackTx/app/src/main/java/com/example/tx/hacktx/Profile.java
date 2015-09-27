@@ -2,16 +2,16 @@ package com.example.tx.hacktx;
 
 public class Profile {
 
-    public String name;
-    public String description;
-    public int ringerState;
-    public int startHour;
-    public int startMinute;
-    public int endHour;
-    public int endMinute;
-    public int year;
-    public int month;
-    public int day;
+    private String name;
+    private String description;
+    private int ringerState;
+    private int startHour;
+    private int startMinute;
+    private int endHour;
+    private int endMinute;
+    private int year;
+    private int month;
+    private int day;
 
     public Profile(String n, String desc, int state, int sh, int smin, int eh, int em, int y, int m, int d){
         name = n;

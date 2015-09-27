@@ -6,30 +6,31 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemSelectedListener;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewProfile extends AppCompatActivity implements OnItemSelectedListener {
 
     private AudioManager am;
 
+    //TODO set name, end date?, repeating on days of week, check for valid profile entry
+
     //Profile data
-    private static String name = "TEST";
-    private static String description = "SAMPLE TEXT";
+    private static String name;
+    private static String description;
     private static int state;
     private static int startHour;
     private static int startMinute;
@@ -155,7 +156,7 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
 
     private static void setProfileStartTime(int h, int m){
         startHour = h;
-        endMinute = m;
+        startMinute = m;
     }
 
     private static void setProfileEndTime(int h, int m){
@@ -169,6 +170,23 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         day = d;
     }
 
+    //Sets the ringer to silent
+    public void silenceRinger(View v){
+        state = AudioManager.RINGER_MODE_SILENT;
+        am.setRingerMode(state);
+    }
+
+    //Sets the ringer to vibrate
+    public void vibrateRinger(View v){
+        state = AudioManager.RINGER_MODE_VIBRATE;
+        am.setRingerMode(state);
+    }
+
+    //Sets the ringer to normal
+    public void normalRinger(View v) {
+        state = AudioManager.RINGER_MODE_NORMAL;
+        am.setRingerMode(state);
+    }
 
     public void createStateSpinner(){
         Spinner spinner = (Spinner) findViewById(R.id.ringer_state_spinner);
@@ -199,6 +217,9 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
     public void setProfile(View v) {
         createDescription();
 
+        EditText mEdit   = (EditText)findViewById(R.id.title_text_box);
+        setName(mEdit.getText().toString());
+
         Profile profile = new Profile(name, description, state, startHour, startMinute, endHour, endMinute, year, month, day);
         MainActivity.addProfileToList(profile);
 
@@ -216,5 +237,9 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
             case AudioManager.RINGER_MODE_NORMAL: description = "Ringer set from " + startHour + ":" + startMinute + " to " + endHour + ":" + endMinute +
                                                                     " on " + month + "/" + day + "/" + year + "."; break;
         }
+    }
+
+    private void setName(String n){
+        name = n;
     }
 }
