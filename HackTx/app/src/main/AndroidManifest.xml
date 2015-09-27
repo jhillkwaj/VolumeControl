@@ -3,6 +3,9 @@
     package="com.example.tx.hacktx" >
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
 
     <application
         android:allowBackup="true"

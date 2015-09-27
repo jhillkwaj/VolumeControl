@@ -6,6 +6,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
@@ -14,6 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     
     static Alarm alarm = null;
+
+    private static boolean createdNewProfile = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
             alarm = new Alarm();
             alarm.checkTime();
         }
-    }
 
+        //retrieveProfilesFromStorage();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,6 +153,10 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             }
+                            if(createdNewProfile) {
+                                storeProfilesToStorage();
+                                createdNewProfile = false;
+                            }
                         }
                     }, 0, 10, TimeUnit.SECONDS);
         }
@@ -168,5 +182,135 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void storeProfilesToStorage(){
+        if(isExternalStorageWritable()) {
+            // Get the directory for the app's private pictures directory.
+            File directory = getExternalFilesDir("SavedProfiles");
+            if (!directory.mkdirs()) {
+                Log.e("SavedProfilesFailed", "SavedProfiles directory not created");
+            }
+
+            FileOutputStream outputStream;
+            try {
+                outputStream = openFileOutput("savedProfiles.txt", Context.MODE_PRIVATE);
+                outputStream.write(profileList.size());
+                for (Profile p : profileList) {
+                    outputStream.write(p.getName().getBytes());
+                    outputStream.write(p.getDescription().getBytes());
+                    outputStream.write(p.getRingerState());
+                    outputStream.write(p.getStartHour());
+                    outputStream.write(p.getStartMinute());
+                    outputStream.write(p.getYear());
+                    outputStream.write(p.getMonth());
+                    outputStream.write(p.getDay());
+                    boolean[] repeatDays = p.getRepeatDays();
+                    outputStream.write(booleanToString(repeatDays[0]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[1]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[2]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[3]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[4]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[5]).getBytes());
+                    outputStream.write(booleanToString(repeatDays[6]).getBytes());
+
+                    Log.d("storing", repeatDays.toString());
+                }
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void retrieveProfilesFromStorage() {
+        if(isExternalStorageReadable()){
+            try {
+                FileInputStream inputStream = openFileInput("savedProfiles.txt");
+                if (inputStream != null) {
+                    InputStreamReader inputReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputReader);
+
+                    int numProfiles = Integer.parseInt(bufferedReader.readLine());
+                    for(int i = 0; i < numProfiles; i++) {
+                        String name = bufferedReader.readLine();
+                        String decription = bufferedReader.readLine();
+                        int ringerState = Integer.parseInt(bufferedReader.readLine());
+                        int hour = Integer.parseInt(bufferedReader.readLine());
+                        int minute = Integer.parseInt(bufferedReader.readLine());
+                        int year = Integer.parseInt(bufferedReader.readLine());
+                        int month = Integer.parseInt(bufferedReader.readLine());
+                        int day = Integer.parseInt(bufferedReader.readLine());
+                        String checkBoxM = bufferedReader.readLine();
+                        String checkBoxT = bufferedReader.readLine();
+                        String checkBoxW = bufferedReader.readLine();
+                        String checkBoxH = bufferedReader.readLine();
+                        String checkBoxF = bufferedReader.readLine();
+                        String checkBoxS = bufferedReader.readLine();
+                        String checkBoxU = bufferedReader.readLine();
+                        boolean repeatM = stringToBoolean(checkBoxM);
+                        boolean repeatT = stringToBoolean(checkBoxT);
+                        boolean repeatW = stringToBoolean(checkBoxW);
+                        boolean repeatH = stringToBoolean(checkBoxH);
+                        boolean repeatF = stringToBoolean(checkBoxF);
+                        boolean repeatS = stringToBoolean(checkBoxS);
+                        boolean repeatU = stringToBoolean(checkBoxU);
+                        boolean[] repeatDays = new boolean[6];
+                        repeatDays[0] = repeatM;
+                        repeatDays[1] = repeatT;
+                        repeatDays[2] = repeatW;
+                        repeatDays[3] = repeatT;
+                        repeatDays[4] = repeatF;
+                        repeatDays[5] = repeatS;
+                        repeatDays[6] = repeatU;
+                        Profile p = new Profile(name, decription, ringerState, hour, minute, year, month, day, repeatDays);
+                        profileList.add(p);
+
+                        Log.d("retrieving", repeatDays.toString());
+                    }
+                    inputStream.close();
+                }
+            }
+            catch(Exception e){
+                Log.d("read savedProfiles.txt", e.toString());
+            }
+        }
+    }
+
+    public boolean stringToBoolean(String str){
+        if(str.equals("true"))
+            return true;
+        else
+            return false;
+    }
+
+    public String booleanToString(boolean bol){
+        if(true)
+            return "true";
+        else
+            return "false";
+    }
+
+    public static void setCreatedNewProfile(){
+        createdNewProfile = true;
     }
 }
