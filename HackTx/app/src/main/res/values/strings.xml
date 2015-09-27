@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="title_text_box">Enter a title for this profile</string>
     <string name="pick_start_time">Choose a start time!</string>
     <string name="pick_end_time">Choose an end time!</string>
     <string name="pick_date">Choose a date!</string>

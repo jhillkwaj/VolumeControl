@@ -6,12 +6,20 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.tx.hacktx.NewProfile">
 
+    <EditText
+        android:id="@+id/title_text_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/title_text_box"/>
+
     <Button
         android:id="@+id/pick_start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pick_start_time"
-        android:onClick="showStartTimePickerDialog"/>
+        android:onClick="showStartTimePickerDialog"
+        android:layout_below="@id/title_text_box"/>
 
     <Button
         android:id="@+id/pick_end_time"
@@ -31,7 +39,7 @@
 
     <Spinner
         android:id="@+id/ringer_state_spinner"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pick_date"/>
 

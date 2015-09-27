@@ -1,11 +1,7 @@
 package com.example.tx.hacktx;
 
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -16,15 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.text.format.DateFormat;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.*;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
