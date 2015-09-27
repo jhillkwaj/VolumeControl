@@ -146,7 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Sets the ringer to normal
-    public void normalRinger(View v){
+    public void normalRinger(View v) {
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+    }
+
+    public void buttonClick(View v) {
+        Log.d("click", "buttonClick");
     }
 }
