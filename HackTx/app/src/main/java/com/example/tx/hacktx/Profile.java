@@ -59,4 +59,40 @@ public class Profile {
     public boolean[]  getRepeatDays(){
         return repeatDays;
     }
+
+    public void setName(String n){
+        name = n;
+    }
+
+    public void setDescription(String desc){
+        description = desc;
+    }
+
+    public void setRingerState(int state){
+        ringerState = state;
+    }
+
+    public void setStartHour(int h){
+        startHour = h;
+    }
+
+    public void setStartMinute(int m){
+        startMinute = m;
+    }
+
+    public void setYear(int y){
+        year = y;
+    }
+
+    public void setMonth(int m){
+        month = m;
+    }
+
+    public void setDay(int d){
+        day = d;
+    }
+
+    public void setRepeatDays(boolean[] repeat){
+        repeatDays = repeat;
+    }
 }

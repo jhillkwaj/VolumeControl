@@ -28,8 +28,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
 
     private AudioManager am;
 
-    //TODO end date?, check for valid profile entry
-
     //Profile data
     private static String name;
     private static String description;
@@ -185,6 +183,8 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
             startActivity(profileSet);
             this.finish();
         }
+
+        MainActivity.setCreatedNewProfile();
     }
 
     private void createDescription(){
