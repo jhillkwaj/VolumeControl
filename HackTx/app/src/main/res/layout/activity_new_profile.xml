@@ -7,11 +7,19 @@
     tools:context="com.example.tx.hacktx.NewProfile">
 
     <Button
-        android:id="@+id/pick_time"
+        android:id="@+id/pick_start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pick_time"
-        android:onClick="showTimePickerDialog"/>
+        android:text="@string/pick_start_time"
+        android:onClick="showStartTimePickerDialog"/>
+
+    <Button
+        android:id="@+id/pick_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_end_time"
+        android:onClick="showEndTimePickerDialog"
+        android:layout_below="@id/pick_start_time"/>
 
     <Button
         android:id="@+id/pick_date"
@@ -19,30 +27,19 @@
         android:layout_height="wrap_content"
         android:text="@string/pick_date"
         android:onClick="showDatePickerDialog"
-        android:layout_below="@id/pick_time"/>
+        android:layout_below="@id/pick_end_time"/>
 
-    <Button
-        android:id="@+id/set_ringer_silent"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/ringer_state_spinner"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/set_ringer_silent"
-        android:onClick="silenceRinger"
         android:layout_below="@id/pick_date"/>
 
     <Button
-        android:id="@+id/set_ringer_vibrate"
+        android:id="@+id/set_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/set_ringer_vibrate"
-        android:onClick="vibrateRinger"
-        android:layout_below="@id/set_ringer_silent"/>
-
-    <Button
-        android:id="@+id/set_ringer_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_ringer_normal"
-        android:onClick="normalRinger"
-        android:layout_below="@id/set_ringer_vibrate"/>
-
+        android:text="@string/set_new_profile"
+        android:onClick="setProfile"
+        android:layout_below="@id/ringer_state_spinner"/>
 </RelativeLayout>

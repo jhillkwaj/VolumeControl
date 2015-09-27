@@ -6,16 +6,12 @@ public class GetContent {
 
     public static ArrayList<String> names = new ArrayList<>();
 
-    public GetContent()
-    {
-        names.add("Turn on Airplane mode between 9 and 9 on weekends");
-        names.add("Mute my phone when I am out");
-        names.add("Turn on Airplane mode between 9 and 9 on weekends");
-        names.add("Mute my phone when I am out");
-        names.add("Turn on Airplane mode between 9 and 9 on weekends");
-        names.add("Mute my phone when I am out");
-        names.add("Turn on Airplane mode between 9 and 9 on weekends");
-        names.add("Mute my phone when I am out");
+    public GetContent() {
+        names.clear();
+
+        for(Profile p : MainActivity.profileList){
+            names.add(p.getName() + ": " + p.getDescription());
+        }
     }
 
 

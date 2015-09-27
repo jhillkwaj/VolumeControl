@@ -1,10 +1,5 @@
 package com.example.tx.hacktx;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,17 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.text.format.DateFormat;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-import java.util.Calendar;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView contentListView;
     private EventAdapter eventAdapter;
     private AudioManager am;
+
+    public static ArrayList<Profile> profileList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,5 +69,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("click", "buttonClick");
         Intent pressFAB = new Intent(this, NewProfile.class);
         startActivity(pressFAB);
+        this.finish();
+    }
+
+    public static void addProfileToList(Profile profile){
+        profileList.add(profile);
     }
 }
