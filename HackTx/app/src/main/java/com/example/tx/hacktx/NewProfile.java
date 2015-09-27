@@ -169,23 +169,6 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
         day = d;
     }
 
-//    //Sets the ringer to silent
-//    public void silenceRinger(View v){
-//        state = AudioManager.RINGER_MODE_SILENT;
-//        am.setRingerMode(state);
-//    }
-//
-//    //Sets the ringer to vibrate
-//    public void vibrateRinger(View v){
-//        state = AudioManager.RINGER_MODE_VIBRATE;
-//        am.setRingerMode(state);
-//    }
-//
-//    //Sets the ringer to normal
-//    public void normalRinger(View v) {
-//        state = AudioManager.RINGER_MODE_NORMAL;
-//        am.setRingerMode(state);
-//    }
 
     public void createStateSpinner(){
         Spinner spinner = (Spinner) findViewById(R.id.ringer_state_spinner);
