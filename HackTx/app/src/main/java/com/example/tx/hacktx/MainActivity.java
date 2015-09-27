@@ -131,4 +131,9 @@ public class MainActivity extends AppCompatActivity {
     private static void setProfileDate(int year, int month, int day){
         //TODO
     }
+
+    public void buttonClick(View v)
+    {
+        Log.d("click", "buttonClick");
+    }
 }
