@@ -1,8 +1,10 @@
 package com.example.tx.hacktx;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +20,25 @@ import android.text.format.DateFormat;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import java.util.Calendar;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.*;
+
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView contentListView;
     private EventAdapter eventAdapter;
     private AudioManager am;
+
+    private PendingIntent pendingIntent;
+    
+    Alarm alarm = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         am = (AudioManager) this.getApplicationContext().getSystemService(this.getApplicationContext().AUDIO_SERVICE);
+
+        if(alarm==null) {
+            alarm = new Alarm();
+            alarm.checkTime();
+        }
+    }
+
+    public void start() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent myIntent = new Intent(this, Alarm.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent,0);
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 10000,
+                10000, pendingIntent);
     }
 
     @Override
@@ -75,4 +104,19 @@ public class MainActivity extends AppCompatActivity {
         Intent pressFAB = new Intent(this, NewProfile.class);
         startActivity(pressFAB);
     }
+
+    class Alarm {
+        ScheduledExecutorService scheduler =
+                Executors.newSingleThreadScheduledExecutor();
+
+        public void checkTime() {
+            scheduler.scheduleAtFixedRate
+                    (new Runnable() {
+                        public void run() {
+                            Log.d("test", "test");
+                        }
+                    }, 0, 10, TimeUnit.SECONDS);
+        }
+    }
+
 }
