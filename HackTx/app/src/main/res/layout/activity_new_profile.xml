@@ -111,5 +111,5 @@
         android:layout_height="wrap_content"
         android:text="@string/set_new_profile"
         android:onClick="setProfile"
-        android:layout_below="@id/sundayCheckBox"/>
+        android:layout_below="@id/saturdayCheckBox"/>
 </RelativeLayout>

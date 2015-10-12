@@ -184,7 +184,7 @@ public class NewProfile extends AppCompatActivity implements OnItemSelectedListe
             this.finish();
         }
 
-        //MainActivity.setCreatedNewProfile();
+        MainActivity.setCreatedNewProfile();
     }
 
     private void createDescription(){
