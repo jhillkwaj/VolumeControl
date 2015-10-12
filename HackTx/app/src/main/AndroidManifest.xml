@@ -3,10 +3,14 @@
     package="com.example.tx.hacktx" >
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_alarm_black"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -23,5 +27,19 @@
             android:label="@string/title_activity_new_profile" >
         </activity>
     </application>
+
+    <service android:name=".MyService" android:label="My Service">
+        <intent-filter>
+            <action android:name="com.myapp.MyService" />
+        </intent-filter>
+    </service>
+
+    <receiver
+        android:name=".receiver.Boot"
+        android:label="StartMyServiceAtBootReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
 
 </manifest>
